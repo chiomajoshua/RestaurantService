@@ -1,5 +1,6 @@
 ﻿using Restaurant.Core.Helpers.Autofac;
 using Restaurant.Data.Models.Order;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Restaurant.Core.Services.Order.Interface
@@ -13,7 +14,17 @@ namespace Restaurant.Core.Services.Order.Interface
         /// <returns></returns>
         Task<bool> AddOrder(CreateOrderRequest createOrderRequest);
 
+        /// <summary>
+        /// Get All Orders
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<OrderResponse>> GetOrders();
 
-
+        /// <summary>
+        /// Get Orders for Single Customer
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        Task<IEnumerable<OrderResponse>> GetOrdersByCustomer(string customerId);
     }
 }

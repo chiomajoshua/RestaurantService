@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Restaurant.Data.Models.Order
 {
     public class OrderRequest
     {
-        public int Quantity { get; set; }        
+        public int Quantity { get; set; } = 1;
         public Guid MenuId { get; set; }
     }
 
     public class CreateOrderRequest
     {
-        public OrderRequest[] OrderRequest { get; set; }
-        public string Status { get; set; }
+        public List<OrderRequest> OrderRequests { get; set; }
         public Guid CustomerId { get; set; }
     }
 }

@@ -26,5 +26,15 @@ namespace Restaurant.Core.Services.Category.Config
             }));
             return result;
         }
+
+        public static CategoryResponse ToCategory(this Data.Entities.Category category)
+        {
+            return new CategoryResponse
+            {
+                Description = category.Description,
+                Name = category.Name,
+                Id = category.Id
+            };
+        }
     }
 }

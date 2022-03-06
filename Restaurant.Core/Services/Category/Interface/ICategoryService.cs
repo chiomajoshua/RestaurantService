@@ -1,5 +1,6 @@
 ﻿using Restaurant.Core.Helpers.Autofac;
 using Restaurant.Data.Models.Category;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,5 +27,12 @@ namespace Restaurant.Core.Services.Category.Interface
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<CategoryResponse>> GetCategories();
+
+        /// <summary>
+        /// Get Category By CategoryID
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        Task<CategoryResponse> GetCategoryById(Guid categoryId);
     }
 }

@@ -55,6 +55,22 @@ namespace Restaurant.Core.Services.Category.Service
             }
         }
 
+
+        public async Task<CategoryResponse> GetCategoryById(Guid categoryId)
+        {
+            try
+            {
+                _logger.LogInformation($"GetCategoryById -----> Category Check for {categoryId} at {DateTime.Now}");
+                var result = await _repository.GetAsync<Data.Entities.Category>(x => x.Id == categoryId);
+                return result?.ToCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"GetCategoryById Error -----> Category Check Failed for {categoryId}. {ex.Message}");
+                return null;
+            }
+        }
+
         private static Specification<Data.Entities.Category> GetSpecification()
         {
             var specification = new Specification<Data.Entities.Category>
@@ -65,5 +81,7 @@ namespace Restaurant.Core.Services.Category.Service
             };
             return specification;
         }
+
+        
     }
 }

@@ -21,5 +21,12 @@ namespace Restaurant.Core.Services.Menu.Interface
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<MenuResponse>> GetAllMenu();
+
+        /// <summary>
+        /// Checks if Dish is added to menu
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Task<bool> IsDishExists(string name);
     }
 }

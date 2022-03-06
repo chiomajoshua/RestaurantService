@@ -26,7 +26,6 @@ namespace Restaurant.Core.Services.Menu.Service
             _logger.LogInformation($"CreateMenuItem -----> Adding DishName, {createMenuRequest.DishName}, to Menu at {DateTime.Now}");
             var response = await _repository.InsertAsync(createMenuRequest.ToDbMenu());
             if (response is not null) return true;
-
             return false;
         }
 
@@ -34,6 +33,20 @@ namespace Restaurant.Core.Services.Menu.Service
         {            
             var response = await _repository.GetListAsync(GetSpecification());
             return response.ToMenuList();
+        }
+
+        public async Task<bool> IsDishExists(string name)
+        {
+            try
+            {
+                _logger.LogInformation($"IsDishExists -----> Dish Exist Check for {name} at {DateTime.Now}");
+                return await _repository.ExistsAsync<Data.Entities.Menu>(x => x.DishName.Trim().ToLower() == name.Trim().ToLower());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"IsDishExists Error -----> Dish Exist Check Failed for {name}. {ex.Message}");
+                return false;
+            }
         }
 
         private static Specification<Data.Entities.Menu> GetSpecification()
@@ -47,5 +60,7 @@ namespace Restaurant.Core.Services.Menu.Service
             };
             return specification;
         }
+
+        
     }
 }

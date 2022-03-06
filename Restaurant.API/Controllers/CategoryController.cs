@@ -27,8 +27,8 @@ namespace Restaurant.API.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Post(CreateCategoryRequest createCategoryRequest)
         {
-            var customerResult = await _categoryService.IsCategoryExists(createCategoryRequest.Name);
-            if (customerResult) return Conflict();
+            var categoryResult = await _categoryService.IsCategoryExists(createCategoryRequest.Name);
+            if (categoryResult) return Conflict();
 
             if (await _categoryService.AddCategory(createCategoryRequest)) return Ok();
 

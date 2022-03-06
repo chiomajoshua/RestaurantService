@@ -26,7 +26,7 @@ namespace Restaurant.Core.Services.Token.Service
         {
             try
             {
-                var token = Helpers.Extensions.Encrypt($"{customerId}+{Guid.NewGuid().ToString().Replace("-", "")}+{DateTime.Now.Ticks}+{DateTime.Now.AddMinutes(5)}");
+                var token = Helpers.Extensions.Encrypt($"{customerId}+{Guid.NewGuid().ToString().Replace("-", "")}+{DateTime.Now.Ticks}+{DateTime.Now.AddMinutes(60)}");
                 var result = await SaveToken(new CreateTokenRequest { Token = token, CustomerId = customerId });
                 return result ? token : "----";
             }

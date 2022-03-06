@@ -9,6 +9,6 @@ namespace Restaurant.Data.Entities
         public Guid CustomerId { get; set; }
         public string Token { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime ExpiresAt { get; set; } = DateTime.Now.AddMinutes(10);
+        public DateTime ExpiresAt { get; set; } = DateTime.Now.AddMinutes(60);
     }
 }

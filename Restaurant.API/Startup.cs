@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Restaurant.Core;
 using Restaurant.Data.Extensions;
+using System.Linq;
 
 namespace Restaurant.API
 {
@@ -45,6 +46,7 @@ namespace Restaurant.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant.API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescription => apiDescription.First());
             });
         }
 
@@ -55,7 +57,7 @@ namespace Restaurant.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Restaurant.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("./v1/swagger.json", "Restaurant.API v1"));
             }
 
             app.UseHttpsRedirection();

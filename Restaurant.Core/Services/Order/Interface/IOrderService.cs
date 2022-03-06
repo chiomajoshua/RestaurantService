@@ -12,7 +12,7 @@ namespace Restaurant.Core.Services.Order.Interface
         /// </summary>
         /// <param name="createOrderRequest"></param>
         /// <returns></returns>
-        Task<bool> AddOrder(CreateOrderRequest createOrderRequest);
+        Task<string> AddOrder(CreateOrderRequest createOrderRequest);
 
         /// <summary>
         /// Get All Orders

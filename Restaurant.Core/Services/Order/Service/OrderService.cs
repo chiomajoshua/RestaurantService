@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using Restaurant.Core.Services.Menu.Interface;
 using Restaurant.Core.Services.Order.Config;
 using Restaurant.Core.Services.Order.Interface;
 using Restaurant.Data.Models.Order;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using TanvirArjel.EFCore.GenericRepository;
 
@@ -16,14 +18,16 @@ namespace Restaurant.Core.Services.Order.Service
     {
         private readonly IRepository _repository;
         private readonly ILogger<OrderService> _logger;
-        public OrderService(IRepository repository, ILogger<OrderService> logger)
+        private readonly IMenuService _menuService;
+        public OrderService(IRepository repository, IMenuService menuService, ILogger<OrderService> logger)
         {
             _repository = repository;
             _logger = logger;
+            _menuService = menuService;
         }
 
 
-        public async Task<bool> AddOrder(CreateOrderRequest createOrderRequest)
+        public async Task<string> AddOrder(CreateOrderRequest createOrderRequest)
         {
             IDbContextTransaction transaction = await _repository.BeginTransactionAsync(IsolationLevel.ReadCommitted);
             try
@@ -31,6 +35,10 @@ namespace Restaurant.Core.Services.Order.Service
                 var batchId = $"ORD-{DateTime.Now.Ticks}";
                 foreach (var item in createOrderRequest.OrderRequests)
                 {
+                    //Will come back to implement menu check log
+                    //var menuExist = _menuService.GetMenuById(item.MenuId);
+                    //if (menuExist is null) ;
+
                     var newOrder = new Data.Entities.Order
                     {
                         BatchId = batchId,
@@ -52,7 +60,7 @@ namespace Restaurant.Core.Services.Order.Service
 
                 await transaction.CommitAsync();
 
-                return true;
+                return batchId;
             }
             catch (Exception)
             {
@@ -67,7 +75,7 @@ namespace Restaurant.Core.Services.Order.Service
             {
                 _logger.LogInformation($"GetOrderByCustomer -----> Get Orders For {customerId} at {DateTime.Now}");
                 var result = await _repository.GetListAsync(GetSpecification(customerId), true);
-                return result?.ToOrderList();
+                return result?.ToCustomerOrderList();
             }
             catch (Exception ex)
             {
@@ -96,7 +104,11 @@ namespace Restaurant.Core.Services.Order.Service
             var specification = new Specification<Data.Entities.Order>();
             if(!string.IsNullOrEmpty(customerId)) specification.Conditions.Add(e => e.Customer.Id == Guid.Parse(customerId));
 
-            if (includeOrders) specification.Includes = query => query.Include(e => e.OrderMenus);
+            if (includeOrders)
+            {
+                specification.Includes = query => query.Include(e => e.OrderMenus);
+            }
+
             specification.Skip = 0;
             specification.Take = 15;
             return specification;

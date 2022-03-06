@@ -31,6 +31,7 @@ namespace Restaurant.API.Controllers
         {
             var categoryResult = await _categoryService.GetCategoryById(createMenuRequest.CategoryId);
             if (categoryResult == null) return NotFound($"There Is No Category With Id, {createMenuRequest.CategoryId}, In Our Records");
+
             var menuResult = await _menuService.IsDishExists(createMenuRequest.DishName);
             if (menuResult) return Conflict();
 

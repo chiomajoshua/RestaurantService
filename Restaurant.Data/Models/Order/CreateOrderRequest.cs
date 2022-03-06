@@ -5,7 +5,7 @@ namespace Restaurant.Data.Models.Order
 {
     public class OrderRequest
     {
-        public int Quantity { get; set; } = 1;
+        public int Quantity { get; set; }
         public Guid MenuId { get; set; }
     }
 

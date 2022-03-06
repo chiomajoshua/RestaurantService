@@ -6,7 +6,7 @@ namespace Restaurant.Core.Services.Order.Config
 {
     public static class OrderExtensions
     {
-        public static IEnumerable<OrderResponse> ToOrderList(this List<Data.Entities.Order> orderData)
+        public static IEnumerable<OrderResponse> ToOrderList(this ICollection<Data.Entities.Order> orderData)
         {
             var result = new List<OrderResponse>();
             result.AddRange(orderData.Select(data => new OrderResponse()

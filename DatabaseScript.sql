@@ -1,0 +1,223 @@
+USE [master]
+GO
+/****** Object:  Database [Restaurant]    Script Date: 3/6/2022 9:24:37 AM ******/
+CREATE DATABASE [Restaurant]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Restaurant', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Restaurant.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Restaurant_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Restaurant_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [Restaurant] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Restaurant].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Restaurant] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Restaurant] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Restaurant] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Restaurant] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Restaurant] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Restaurant] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Restaurant] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Restaurant] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Restaurant] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Restaurant] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Restaurant] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Restaurant] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Restaurant] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Restaurant] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Restaurant] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Restaurant] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Restaurant] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Restaurant] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Restaurant] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Restaurant] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Restaurant] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Restaurant] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Restaurant] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Restaurant] SET  MULTI_USER 
+GO
+ALTER DATABASE [Restaurant] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Restaurant] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Restaurant] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Restaurant] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Restaurant] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Restaurant] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Restaurant', N'ON'
+GO
+ALTER DATABASE [Restaurant] SET QUERY_STORE = OFF
+GO
+USE [Restaurant]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Description] [varchar](max) NOT NULL,
+	[CreatedAt] [datetimeoffset](7) NOT NULL,
+	[UpdatedAt] [datetimeoffset](7) NOT NULL,
+ CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[Id] [uniqueidentifier] NOT NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[MiddleName] [varchar](50) NULL,
+	[LastName] [varchar](50) NOT NULL,
+	[EmailAddress] [nvarchar](50) NOT NULL,
+	[PhoneNumber] [nvarchar](15) NOT NULL,
+	[PasswordHash] [nvarchar](max) NOT NULL,
+	[AccountStatus] [bit] NOT NULL,
+	[CreatedAt] [datetimeoffset](7) NOT NULL,
+	[UpdatedAt] [datetimeoffset](7) NOT NULL,
+	[HouseNumber] [varchar](10) NOT NULL,
+	[StreetName] [varchar](50) NOT NULL,
+	[City] [varchar](50) NOT NULL,
+	[State] [varchar](30) NOT NULL,
+	[Country] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Menu]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Menu](
+	[Id] [uniqueidentifier] NOT NULL,
+	[DishName] [varchar](50) NOT NULL,
+	[Description] [varchar](max) NOT NULL,
+	[Price] [decimal](18, 0) NOT NULL,
+	[CategoryId] [uniqueidentifier] NOT NULL,
+	[CreatedAt] [datetimeoffset](7) NOT NULL,
+	[UpdatedAt] [datetimeoffset](7) NOT NULL,
+ CONSTRAINT [PK_Menu] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Order]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[CreatedAt] [datetimeoffset](7) NOT NULL,
+	[UpdatedAt] [datetimeoffset](7) NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+	[BatchId] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderMenu]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderMenu](
+	[Id] [uniqueidentifier] NOT NULL,
+	[OrderId] [uniqueidentifier] NULL,
+	[MenuId] [uniqueidentifier] NULL,
+ CONSTRAINT [PK_OrderMenu] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TokenLog]    Script Date: 3/6/2022 9:24:37 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TokenLog](
+	[Id] [uniqueidentifier] NOT NULL,
+	[CustomerId] [uniqueidentifier] NOT NULL,
+	[Token] [nvarchar](max) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[ExpiresAt] [datetime2](7) NOT NULL,
+	[CreatedAt] [datetimeoffset](7) NOT NULL,
+	[UpdatedAt] [datetimeoffset](7) NOT NULL,
+ CONSTRAINT [PK_TokenLog] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Menu]  WITH CHECK ADD  CONSTRAINT [FK_Menu_Category] FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Category] ([Id])
+GO
+ALTER TABLE [dbo].[Menu] CHECK CONSTRAINT [FK_Menu_Category]
+GO
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Customer] FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Customer]
+GO
+ALTER TABLE [dbo].[OrderMenu]  WITH CHECK ADD  CONSTRAINT [FK_OrderMenu_Menu] FOREIGN KEY([MenuId])
+REFERENCES [dbo].[Menu] ([Id])
+GO
+ALTER TABLE [dbo].[OrderMenu] CHECK CONSTRAINT [FK_OrderMenu_Menu]
+GO
+ALTER TABLE [dbo].[OrderMenu]  WITH CHECK ADD  CONSTRAINT [FK_OrderMenu_Order] FOREIGN KEY([OrderId])
+REFERENCES [dbo].[Order] ([Id])
+GO
+ALTER TABLE [dbo].[OrderMenu] CHECK CONSTRAINT [FK_OrderMenu_Order]
+GO
+USE [master]
+GO
+ALTER DATABASE [Restaurant] SET  READ_WRITE 
+GO

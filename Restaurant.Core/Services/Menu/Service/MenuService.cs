@@ -49,6 +49,21 @@ namespace Restaurant.Core.Services.Menu.Service
             }
         }
 
+        public async Task<MenuResponse> GetMenuById(Guid menuId)
+        {
+            try
+            {
+                _logger.LogInformation($"GetMenuById -----> Menu Check for {menuId} at {DateTime.Now}");
+                var result = await _repository.GetListAsync(GetSpecification());
+                return result.FirstOrDefault(x => x.Id == menuId).ToMenu();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"GetMenuById Error -----> Menu Check Failed for {menuId}. {ex.Message}");
+                return null;
+            }
+        }
+
         private static Specification<Data.Entities.Menu> GetSpecification()
         {
             var specification = new Specification<Data.Entities.Menu>

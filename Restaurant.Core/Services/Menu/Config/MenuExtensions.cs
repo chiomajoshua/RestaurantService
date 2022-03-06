@@ -32,5 +32,18 @@ namespace Restaurant.Core.Services.Menu.Config
             }));
             return result;
         }
+
+        public static MenuResponse ToMenu(this Data.Entities.Menu menuData)
+        {
+            return new MenuResponse
+            {
+                Category = menuData.Category.Name,
+                Description = menuData.Description,
+                DishName = menuData.DishName,
+                Price = menuData.Price,
+                CategoryId = menuData.CategoryId,
+                MenuId = menuData.Id
+            };
+        }
     }
 }

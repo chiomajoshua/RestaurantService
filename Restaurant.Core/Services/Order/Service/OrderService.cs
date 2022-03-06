@@ -80,13 +80,13 @@ namespace Restaurant.Core.Services.Order.Service
         {
             try
             {
-                _logger.LogInformation($"GetOrderByCustomer -----> Get Orders at {DateTime.Now}");
+                _logger.LogInformation($"GetOrders -----> Get Orders at {DateTime.Now}");
                 var result = await _repository.GetListAsync(GetSpecification(includeOrders: true));
                 return result?.ToOrderList();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"GetOrderByCustomer Error -----> Get Orders Failed. {ex.Message}");
+                _logger.LogError($"GetOrders Error -----> Get Orders Failed. {ex.Message}");
                 return null;
             }
         }

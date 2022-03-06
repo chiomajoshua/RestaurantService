@@ -61,8 +61,8 @@ namespace Restaurant.Core.Services.Category.Service
             try
             {
                 _logger.LogInformation($"GetCategoryById -----> Category Check for {categoryId} at {DateTime.Now}");
-                var result = await _repository.GetAsync<Data.Entities.Category>(x => x.Id == categoryId);
-                return result?.ToCategory();
+                var result = await _repository.GetListAsync(GetSpecification());
+                return result?.FirstOrDefault(x => x.Id == categoryId).ToCategory();
             }
             catch (Exception ex)
             {
@@ -80,8 +80,6 @@ namespace Restaurant.Core.Services.Category.Service
                 Take = 20
             };
             return specification;
-        }
-
-        
+        }        
     }
 }

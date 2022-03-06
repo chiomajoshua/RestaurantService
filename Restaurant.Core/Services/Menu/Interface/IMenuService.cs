@@ -28,5 +28,12 @@ namespace Restaurant.Core.Services.Menu.Interface
         /// <param name="name"></param>
         /// <returns></returns>
         Task<bool> IsDishExists(string name);
+
+        /// <summary>
+        /// Return Menu By Menu Id
+        /// </summary>
+        /// <param name="menuId"></param>
+        /// <returns></returns>
+        Task<MenuResponse> GetMenuById(Guid menuId);
     }
 }

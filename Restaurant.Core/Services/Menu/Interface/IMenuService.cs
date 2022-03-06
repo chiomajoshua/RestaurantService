@@ -13,7 +13,7 @@ namespace Restaurant.Core.Services.Menu.Interface
         /// </summary>
         /// <param name="createMenuRequest"></param>
         /// <returns></returns>
-        Task<Guid> CreateMenuItem(CreateMenuRequest createMenuRequest);
+        Task<bool> CreateMenuItem(CreateMenuRequest createMenuRequest);
 
 
         /// <summary>

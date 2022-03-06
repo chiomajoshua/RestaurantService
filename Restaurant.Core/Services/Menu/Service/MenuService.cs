@@ -21,13 +21,13 @@ namespace Restaurant.Core.Services.Menu.Service
             _repository = repository;
         }
 
-        public async Task<Guid> CreateMenuItem(CreateMenuRequest createMenuRequest)
+        public async Task<bool> CreateMenuItem(CreateMenuRequest createMenuRequest)
         {
             _logger.LogInformation($"CreateMenuItem -----> Adding DishName, {createMenuRequest.DishName}, to Menu at {DateTime.Now}");
             var response = await _repository.InsertAsync(createMenuRequest.ToDbMenu());
-            if (response is not null) return (Guid)response[0];
+            if (response is not null) return true;
 
-            return Guid.Empty;
+            return false;
         }
 
         public async Task<IEnumerable<MenuResponse>> GetAllMenu()

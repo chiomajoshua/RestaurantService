@@ -40,7 +40,7 @@ namespace Restaurant.Core.Services.Customer.Service
             try
             {
                 _logger.LogInformation($"GetCustomerByEmailAsync -----> Account Check for {email} at {DateTime.Now}");
-                var result = await _repository.GetAsync(GetSpecification(email), true);
+                var result = await _repository.GetAsync(GetSpecification(email, true));
                 return result?.ToCustomer();
             }
             catch (Exception ex)

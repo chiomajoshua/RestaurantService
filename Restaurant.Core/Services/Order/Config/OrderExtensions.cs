@@ -14,8 +14,8 @@ namespace Restaurant.Core.Services.Order.Config
                 Id = data.Id,
                 OrderDate = data.CreatedAt,
                 Quantity = data.Quantity,
-                BatchId = data.BatchId,
-                DishName = data.OrderMenus.Where(x => x.OrderId == data.Id).Select(x => x.Menu.DishName).FirstOrDefault()
+                BatchId = data.BatchId
+                //DishName = data.OrderMenus.Where(x => x.OrderId == data.Id).Select(x => x.Menu.DishName).FirstOrDefault()
             }));
             return result;
         }
@@ -28,8 +28,8 @@ namespace Restaurant.Core.Services.Order.Config
                 Id = data.Id,
                 OrderDate = data.CreatedAt,
                 Quantity = data.Quantity,
-                BatchId = data.BatchId,
-                DishName = data.OrderMenus.Where(x => x.OrderId == data.Id).Select(x => x.Menu.DishName).FirstOrDefault()
+                BatchId = data.BatchId
+                //DishName = data.OrderMenus.Where(x => x.OrderId == data.Id).Select(x => x.Menu.DishName).FirstOrDefault()
             }));
             return result;
         }

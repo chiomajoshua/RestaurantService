@@ -87,8 +87,8 @@ namespace Restaurant.Core.Services.Order.Service
         public async Task<IEnumerable<OrderResponse>> GetOrders()
         {
             try
-            {
-                _logger.LogInformation($"GetOrders -----> Get Orders at {DateTime.Now}");
+            {                
+                _logger.LogInformation($"GetOrders -----> Get Orders at {DateTime.Now}");               
                 var result = await _repository.GetListAsync(GetSpecification(includeOrders: true));
                 return result?.ToOrderList();
             }
@@ -104,10 +104,7 @@ namespace Restaurant.Core.Services.Order.Service
             var specification = new Specification<Data.Entities.Order>();
             if(!string.IsNullOrEmpty(customerId)) specification.Conditions.Add(e => e.Customer.Id == Guid.Parse(customerId));
 
-            if (includeOrders)
-            {
-                specification.Includes = query => query.Include(e => e.OrderMenus);
-            }
+            if (includeOrders) specification.Includes = query => query.Include(e => e.OrderMenus);
 
             specification.Skip = 0;
             specification.Take = 15;

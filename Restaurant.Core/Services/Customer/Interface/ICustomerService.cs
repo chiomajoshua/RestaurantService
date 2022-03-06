@@ -12,7 +12,7 @@ namespace Restaurant.Core.Services.Customer.Interface
         /// </summary>
         /// <param name="createCustomerRequest"></param>
         /// <returns></returns>
-        Task<Guid> CreateCustomerAsync(CreateCustomerRequest createCustomerRequest);
+        Task<bool> CreateCustomerAsync(CreateCustomerRequest createCustomerRequest);
 
         /// <summary>
         /// Checks if Customer Exists

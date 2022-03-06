@@ -1,4 +1,5 @@
 ﻿using Restaurant.Core.Helpers.Autofac;
+using System;
 using System.Threading.Tasks;
 
 namespace Restaurant.Core.Services.Token.Interface
@@ -8,9 +9,9 @@ namespace Restaurant.Core.Services.Token.Interface
         /// <summary>
         /// Create Token
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="customerId"></param>
         /// <returns></returns>
-        Task<string> CreateToken(string email);
+        Task<string> CreateToken(Guid customerId);
 
         /// <summary>
         /// Validate Token

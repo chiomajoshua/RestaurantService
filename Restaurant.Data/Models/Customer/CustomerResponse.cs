@@ -1,11 +1,12 @@
 ﻿using Restaurant.Data.Models.Order;
+using System;
 using System.Collections.Generic;
 
 namespace Restaurant.Data.Models.Customer
 {
     public class CustomerResponse
     {
-        public string CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

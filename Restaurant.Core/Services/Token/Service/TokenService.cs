@@ -22,12 +22,12 @@ namespace Restaurant.Core.Services.Token.Service
             _customerService = customerService;
         }
 
-        public async Task<string> CreateToken(string customerId)
+        public async Task<string> CreateToken(Guid customerId)
         {
             try
             {
-                var token = Helpers.Extensions.Encrypt($"{customerId}-{Guid.NewGuid().ToString().Replace("-", "")}-{DateTime.Now.Ticks}-{DateTime.Now.AddMinutes(5)}");
-                var result = await SaveToken(new CreateTokenRequest { Token = token });
+                var token = Helpers.Extensions.Encrypt($"{customerId}+{Guid.NewGuid().ToString().Replace("-", "")}+{DateTime.Now.Ticks}+{DateTime.Now.AddMinutes(5)}");
+                var result = await SaveToken(new CreateTokenRequest { Token = token, CustomerId = customerId });
                 return result ? token : "----";
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace Restaurant.Core.Services.Token.Service
         public async Task<bool> ValidateToken(string token)
         {
             if (string.IsNullOrEmpty(token)) return false;
-            var request = Helpers.Extensions.Decrypt(token).Split('-');
+            var request = Helpers.Extensions.Decrypt(token).Split('+');
             try
             {
                 var customerRecords = await _customerService.GetCustomerByIdAsync(Guid.Parse(request.FirstOrDefault()));
@@ -58,17 +58,17 @@ namespace Restaurant.Core.Services.Token.Service
             }
         }
 
-        public async Task<bool> DestroyToken(string customerId)
+        public async Task<bool> DestroyToken(string token)
         {
             try
             {
-                var tokenLog = await _repository.GetListAsync<Data.Entities.TokenLog>(x => x.CustomerId == Guid.Parse(customerId) && x.IsActive);
-                if(tokenLog.Any()) return true;
-                tokenLog.ForEach(x => x.IsActive = false);
+                var request = Helpers.Extensions.Decrypt(token).Split('+');
+                var tokenLog = await _repository.GetListAsync<Data.Entities.TokenLog>(x => x.CustomerId == Guid.Parse(request.FirstOrDefault()) && x.IsActive);
+                if(!tokenLog.Any()) return true;
+                tokenLog.ForEach(x => x.IsActive = false && x.UpdatedAt == DateTimeOffset.Now);
                 await _repository.UpdateAsync<Data.Entities.TokenLog>(tokenLog);
 
-
-                var activeToken = await _repository.GetListAsync<Data.Entities.TokenLog>(x => x.CustomerId == Guid.Parse(customerId) && x.IsActive);
+                var activeToken = await _repository.GetListAsync<Data.Entities.TokenLog>(x => x.CustomerId == Guid.Parse(request.FirstOrDefault()) && x.IsActive);
                 if (activeToken.Any()) return false;
                 return true;
             }

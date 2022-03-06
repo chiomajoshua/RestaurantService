@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Restaurant.API.CustomActionFilter;
 using Restaurant.Core.Services.Authentication.Interface;
 using Restaurant.Core.Services.Customer.Interface;
 using Restaurant.Core.Services.Token.Interface;
@@ -8,7 +10,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Restaurant.API.Controllers
-{
+{    
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -22,6 +24,7 @@ namespace Restaurant.API.Controllers
             _authService = authService;
             _tokenService = tokenService;
         }
+
 
         [HttpPost, Route("login")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -45,18 +48,18 @@ namespace Restaurant.API.Controllers
             return Unauthorized("Invalid login credentials");
         }
 
-
+        [AuthorizeActionFilter]
         [HttpPost, Route("Logout")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> Post(string customerId)
+        public async Task<IActionResult> Post()
         {
-            if (string.IsNullOrEmpty(customerId)) return BadRequest("Request is empty");
-
-            if (await _tokenService.DestroyToken(customerId))
+            HttpContext.Request.Headers.TryGetValue("Token", out Microsoft.Extensions.Primitives.StringValues authToken);
+            
+            if (await _tokenService.DestroyToken(authToken))
                 return Ok("Logout Successful");
             return Forbid("Logout Unsuccessful");
         }

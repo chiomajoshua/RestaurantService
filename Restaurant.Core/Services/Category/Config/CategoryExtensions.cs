@@ -15,7 +15,7 @@ namespace Restaurant.Core.Services.Category.Config
             };
         }
 
-        public static IEnumerable<CategoryResponse> ToCategory(this List<Data.Entities.Category> categories)
+        public static IEnumerable<CategoryResponse> ToCategoryList(this List<Data.Entities.Category> categories)
         {
             var result = new List<CategoryResponse>();
             result.AddRange(categories.Select(data => new CategoryResponse()

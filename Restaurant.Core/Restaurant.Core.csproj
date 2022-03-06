@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Restaurant.Data\Restaurant.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Category\Service\" />
-  </ItemGroup>
-
 </Project>

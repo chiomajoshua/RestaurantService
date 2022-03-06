@@ -6,10 +6,6 @@ namespace Restaurant.Data.Entities
 {
     public partial class RestaurantContext : DbContext
     {
-        public RestaurantContext()
-        {
-        }
-
         public RestaurantContext(DbContextOptions<RestaurantContext> options)
             : base(options)
         {

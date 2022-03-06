@@ -19,19 +19,19 @@ namespace Restaurant.Core.Services.Customer.Service
             _logger = logger;
         }
 
-        public async Task<Guid> CreateCustomerAsync(CreateCustomerRequest createCustomerRequest)
+        public async Task<bool> CreateCustomerAsync(CreateCustomerRequest createCustomerRequest)
         {
             try
             {
                 _logger.LogInformation($"CreateCustomer -----> {createCustomerRequest.EmailAddress} tried to create an account at {DateTime.Now}");
                 var response = await _repository.InsertAsync(createCustomerRequest.ToDbCustomer());
-                if (response is not null) return (Guid)response[0];
-                return Guid.Empty;
+                if (response is not null) return true;
+                return false;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"IsCustomerExists Error -----> Account Creation Failed for {createCustomerRequest}. {ex.Message}");
-                return Guid.Empty;
+                _logger.LogError($"CreateCustomer Error -----> Account Creation Failed for {createCustomerRequest.EmailAddress}. {ex.Message}");
+                return false;
             }
         }
 

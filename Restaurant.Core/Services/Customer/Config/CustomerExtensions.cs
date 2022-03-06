@@ -15,7 +15,12 @@ namespace Restaurant.Core.Services.Customer.Config
                 LastName = createCustomerRequest.LastName,
                 MiddleName = createCustomerRequest.MiddleName,
                 PhoneNumber = createCustomerRequest.PhoneNumber,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createCustomerRequest.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createCustomerRequest.Password),
+                City = createCustomerRequest.City,
+                Country = createCustomerRequest.Country,
+                HouseNumber = createCustomerRequest.HouseNumber,
+                State = createCustomerRequest.State,
+                StreetName = createCustomerRequest.StreetName
             };
         }
 
@@ -28,7 +33,7 @@ namespace Restaurant.Core.Services.Customer.Config
                 LastName = customer.LastName,
                 MiddleName = customer.MiddleName,
                 PhoneNumber = customer.PhoneNumber,
-                CustomerId = customer.Id.ToString(),
+                CustomerId = customer.Id,
                 AccountStatus = customer.AccountStatus,
                 Orders = customer.Orders.ToCustomerOrderList()
             };

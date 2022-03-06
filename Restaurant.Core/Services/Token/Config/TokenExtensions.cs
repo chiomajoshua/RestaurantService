@@ -9,8 +9,8 @@ namespace Restaurant.Core.Services.Token.Config
         {
             return new Data.Entities.TokenLog
             {
-                Id = Guid.NewGuid(),
-                Token = createTokenRequest.Token
+                Token = createTokenRequest.Token,
+                CustomerId = createTokenRequest.CustomerId
             };
         }
     }
